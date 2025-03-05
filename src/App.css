@@ -1,0 +1,269 @@
+#root {
+  max-width: 1260px;
+  /* margin: 0 auto;
+  padding: 2rem;  */
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.button-login{
+  border: none;
+  background-color: green;
+  color: white;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+/* Auth Styles */
+.auth-container {
+  padding: 0;
+  background-color: white;
+  border-radius: 0.5rem;
+  max-width: 1000px;
+  max-height: 500px; /* Ajusta la altura para que tome todo el alto disponible */
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column; /* Cambia a columna para mejor manejo responsivo */
+}
+
+@media(min-width: 768px){
+  .auth-container{
+    flex-direction: row;
+    height: 500px;
+    margin-top: 2rem;
+  }
+}
+
+.auth-fields {
+  margin: 1rem 3rem;
+  padding-bottom: 2rem;
+  flex: 1; /* Permite que el formulario tome el espacio restante */
+}
+
+.auth-fields h2 {
+  color: #722ed1;
+}
+
+@media(min-width: 768px){
+  .auth-fields{
+    width: 50%;
+    margin: 5rem 3rem;
+  }
+
+  .auth-fields h2{
+    margin-bottom: 4rem;
+  }
+}
+
+.input, .input input, .input .ant-input, .input .ant-input-password {
+  transition: all 0.3s ease; /* Añadir transición para hacer más suave el cambio */
+}
+
+.input:hover, .input:focus-within {
+  border-color: #722ed1;
+  box-shadow: 0 0 5px #722ed1; /* Cambia la sombra */
+  outline: none; /* Elimina el borde predeterminado del foco */
+}
+
+.field{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}
+
+.img-auth-container {
+  max-width: 100%;
+  max-height: 100%; /* Ajusta la altura para que sea responsiva */
+}
+.img-auth {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+@media(min-width: 768px){
+  .img-auth{
+    height: 100%;
+  }
+}
+
+/* Tasks Styles */
+.tasks-container{
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+}
+@media(min-width: 768px){
+  .tasks-container{
+    flex-direction: row;
+    gap: 2rem;
+  }
+}
+
+.form-task-container{
+  background-color: white;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  max-width: 100%;
+  height: 250px;
+  margin-bottom: 2rem;
+}
+.form-task-container h2{
+  margin: 0 0 2rem 0;
+  color: #722ed1;
+}
+@media(min-width: 768px){
+  .form-task-container{
+    width: 450px;
+    margin-bottom: 0;
+  }
+}
+
+.list-tasks-container{
+  background-color: #722ed1;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  max-width: 100%;
+}
+.list-tasks-container h2{
+  margin: 0 0 1rem 0;
+  color: white;
+}
+@media(min-width: 768px){
+  .list-tasks-container{
+    width: 700px;
+    padding: 1rem;
+  }
+}
+
+.task-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  width: 100%;
+  color: black;
+}
+@media(min-width: 764px){
+  .task-container{
+    flex-direction: row;
+    align-items: stretch; /* Asegura que los elementos hijos tomen toda la altura disponible */
+  }
+}
+
+.task-content{
+  flex-grow: 1; /* Permite que el contenido tome todo el espacio disponible */
+}
+
+.task-header{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+.task-header h3{
+  margin: 1rem 0 0.5rem 0;
+  color: #722ed1;
+  font-size: 1.4rem;
+}
+@media(min-width: 768px){
+  .task-header{
+    justify-content: start;
+    align-items: start;
+    margin: 0 1rem;
+  }
+}
+
+.task-description p{
+  margin: 0.5rem 1rem;
+  text-align: start;
+}
+
+.task-footer{
+  display: flex;
+  flex-direction: column;
+  margin: 1.5rem 0 0 0;
+}
+.task-footer h4{
+  margin: 0;
+}
+.task-footer h5{
+  margin: 0 0 1rem 0;
+  color: rgb(224, 148, 5);
+}
+@media(min-width: 768px){
+  .task-footer{
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem;
+  }
+  .task-footer h5{
+    margin: 0;
+  }
+}
+
+.task-action{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.task-action button{
+  background-color: red;
+  border-radius: 0 0 0.5rem 0.5rem;
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+@media(min-width: 768px){
+  .task-action{
+    flex-grow: 0; /* Evita que el botón crezca más de lo necesario */
+    width: auto; /* Permite que el botón se ajuste automáticamente */
+  }
+
+  .task-action button{
+    border-radius: 0 0.5rem 0.5rem 0;
+    height: 100%;
+    padding: 0 2rem;
+  }
+}
