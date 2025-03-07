@@ -1,7 +1,12 @@
+:root{
+  --purple: #722ed1;
+  --orange: rgb(224, 148, 5);
+}
+
 #root {
   max-width: 1260px;
-  /* margin: 0 auto;
-  padding: 2rem;  */
+  /* margin: 0 auto; */
+  /* padding: 2rem;   */
   text-align: center;
 }
 
@@ -33,8 +38,12 @@
   }
 }
 
+html body{
+  overflow-x: hidden;
+}
+
 .card {
-  padding: 2em;
+  margin: 2rem;
 }
 
 .read-the-docs {
@@ -49,13 +58,19 @@
   margin-top: 1rem;
 }
 
+.title{
+  margin: 0;
+  padding: 0;
+  color: white;
+  font-size: 30px;
+}
+
 /* Auth Styles */
 .auth-container {
   padding: 0;
   background-color: white;
   border-radius: 0.5rem;
   max-width: 1000px;
-  max-height: 500px; /* Ajusta la altura para que tome todo el alto disponible */
   margin: 0 auto;
   display: flex;
   flex-direction: column; /* Cambia a columna para mejor manejo responsivo */
@@ -64,19 +79,19 @@
 @media(min-width: 768px){
   .auth-container{
     flex-direction: row;
-    height: 500px;
-    margin-top: 2rem;
+    margin-top: 4rem;
+    max-height: 500px;
   }
 }
 
-.auth-fields {
+.auth-fields, .register-fields {
   margin: 1rem 3rem;
   padding-bottom: 2rem;
   flex: 1; /* Permite que el formulario tome el espacio restante */
 }
 
-.auth-fields h2 {
-  color: #722ed1;
+.auth-fields h2, .register-fields h2{
+  color: var(--purple);
 }
 
 @media(min-width: 768px){
@@ -84,9 +99,15 @@
     width: 50%;
     margin: 5rem 3rem;
   }
-
   .auth-fields h2{
-    margin-bottom: 4rem;
+    margin-bottom: 5rem;
+  }
+
+  .register-fields{
+    margin-top: 3rem;
+  }
+  .register-fields h2{
+    margin-bottom: 2rem;
   }
 }
 
@@ -95,8 +116,8 @@
 }
 
 .input:hover, .input:focus-within {
-  border-color: #722ed1;
-  box-shadow: 0 0 5px #722ed1; /* Cambia la sombra */
+  border-color: var(--purple);
+  box-shadow: 0 0 5px var(--purple); /* Cambia la sombra */
   outline: none; /* Elimina el borde predeterminado del foco */
 }
 
@@ -115,6 +136,7 @@
   width: 100%;
   height: 200px;
   object-fit: cover;
+  border-radius: 0.5rem 0 0 0.5rem;
 }
 
 @media(min-width: 768px){
@@ -141,23 +163,31 @@
   padding: 1rem 2rem;
   border-radius: 0.5rem;
   max-width: 100%;
-  height: 250px;
+  min-height: 250px;
+  max-height: 300px;
+  overflow-y: auto;
   margin-bottom: 2rem;
 }
 .form-task-container h2{
   margin: 0 0 2rem 0;
-  color: #722ed1;
+  color: var(--orange);
+}
+.form-task-container .text-area{
+  resize: none;
 }
 @media(min-width: 768px){
   .form-task-container{
     width: 450px;
     margin-bottom: 0;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 1rem;
   }
 }
 
 .list-tasks-container{
-  background-color: #722ed1;
-  padding: 1rem 2rem;
+  background-color: var(--orange);
+  padding: 1rem 1.5rem;
   border-radius: 0.5rem;
   max-width: 100%;
 }
@@ -165,10 +195,17 @@
   margin: 0 0 1rem 0;
   color: white;
 }
+.list-tasks-container.read-delete{
+  margin: 0;
+}
 @media(min-width: 768px){
   .list-tasks-container{
     width: 700px;
     padding: 1rem;
+    margin: 0 auto;
+  }
+  .list-tasks-container.read-delete{
+    margin: 0 auto;
   }
 }
 
@@ -182,6 +219,9 @@
   border-radius: 0.5rem;
   width: 100%;
   color: black;
+}
+.task-container:last-child{
+  margin-bottom: 0;
 }
 @media(min-width: 764px){
   .task-container{
@@ -202,7 +242,7 @@
 }
 .task-header h3{
   margin: 1rem 0 0.5rem 0;
-  color: #722ed1;
+  color: var(--purple);
   font-size: 1.4rem;
 }
 @media(min-width: 768px){
@@ -228,9 +268,9 @@
 }
 .task-footer h5{
   margin: 0 0 1rem 0;
-  color: rgb(224, 148, 5);
+  color: var(--purple);
 }
-@media(min-width: 768px){
+@media(min-width: 1120px){
   .task-footer{
     flex-direction: row;
     justify-content: space-between;

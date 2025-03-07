@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useAuth } from '../hooks/useAuth'
-import { useNavigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from '../hooks/useAuth'
+import { BrowserRouter, useNavigate } from 'react-router-dom';
 import { Button, Col, Input, Row } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
-import { createTaksFirestore, deleteTaskFirestore, readDataTasksFirestore } from '../config/firestoreCalls';
+import { createTaksFirestore, deleteTaskFirestore, readDataTasksFirestore, readDataUserFirestore } from '../config/firestoreCalls';
 import { DeleteFilled } from '@ant-design/icons';
+// import Navbar from './components/Navbar';
 
 export default function Home() {
 
@@ -12,6 +13,7 @@ export default function Home() {
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [userPermission, setUserPermission] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,9 +22,30 @@ export default function Home() {
 
   useEffect(() => {
     if(user){
+      getUserPermission();
       readTasks();
     }
   }, [tasks]);
+
+  //Verificar el permiso del usuario
+  const getUserPermission = async() => {
+    try{
+      
+      const userDoc = await readDataUserFirestore('users', 'email', user.email);
+
+      if(!userDoc.empty){
+        const userData = userDoc.docs[0].data();
+        //console.log(userData);
+        //console.log(userData.permission);
+        setUserPermission(userData.permission);
+      }else{
+        console.log('No exist document');
+      }
+
+    }catch(error){  
+      console.log(error);
+    }
+  }
 
   const readTasks = async () => {
     const lcTasks = await readDataTasksFirestore('tasks', 'created_at');
@@ -97,50 +120,61 @@ export default function Home() {
 
   return (
     <div>
+          {/* <BrowserRouter>
+            <AuthProvider>
+              <Navbar></Navbar>
+            </AuthProvider>
+          </BrowserRouter> */}
         <h1>Tareas</h1>
 
         <div className='tasks-container'>
 
-          <div xs={24} md={12} className='form-task-container'>
-            <h2>Agregar Tarea</h2>
+          { userPermission === 'write' && 
+            (
+              <div xs={24} md={12} className='form-task-container'>
+                <h2>Agregar Tarea</h2>
 
-            <div className='field'>
-              <label style={{color: 'black', fontWeight: 'bold'}}>Título:</label>
-              <Input
-                size='large'
-                placeholder='Título'
-                className='input'
-                value={title}
-                onChange={changeTitle}
-              >
-              </Input>
-            </div>
+                <div className='field'>
+                  <label style={{color: 'black', fontWeight: 'bold'}}>Título:</label>
+                  <Input
+                    size='large'
+                    placeholder='Título'
+                    className='input'
+                    value={title}
+                    onChange={changeTitle}
+                  >
+                  </Input>
+                </div>
 
-            <TextArea
-              placeholder='Descripción de la tarea...'
-              style={{margin: '1rem 0 0 0'}}
-              className='input'
-              value={content}
-              onChange={changeContent}
-            >
-            </TextArea>
+                <TextArea
+                  placeholder='Descripción de la tarea...'
+                  style={{margin: '1rem 0 0 0', height: '100px'}}
+                  className='input text-area'
+                  value={content}
+                  onChange={changeContent}
+                >
+                </TextArea>
 
-            <Button
-              color='orange'
-              variant='solid'
-              style={{
-                margin: '1.5rem 0 0 0',
-                display: 'inline-block',
-                width: '100%',
-                fontWeight: 'bold'
-              }}
-              onClick={createTask}
-            >
-              Agregar
-            </Button>
-          </div>
+                <Button
+                  color='purple'
+                  variant='solid'
+                  style={{
+                    margin: '1.5rem 0 0 0',
+                    display: 'inline-block',
+                    width: '100%',
+                    fontWeight: 'bold'
+                  }}
+                  onClick={createTask}
+                >
+                  Agregar
+                </Button>
+              </div>
+            )
+          }
 
-          <div xs={24} md={12} className='list-tasks-container'>
+          <div xs={24} md={userPermission === 'write' ? 12 : 24} 
+            className={`list-tasks-container ${userPermission === 'read' || userPermission ==='delete' ? 'read-delete' : ''}`}
+          >
               <h2>Lista de Tareas</h2>
 
               {/* {tasks.length > 0 &&
@@ -174,9 +208,11 @@ export default function Home() {
 
                       </div>
 
-                      <div className='task-action'>
-                        <button onClick={() => deleteTask(task.id_task)}><DeleteFilled></DeleteFilled></button>
-                      </div>
+                      { userPermission === 'delete' &&
+                          <div className='task-action'>
+                            <button onClick={() => deleteTask(task.id_task)}><DeleteFilled></DeleteFilled></button>
+                          </div>
+                      }
 
                     </div>
                   ))

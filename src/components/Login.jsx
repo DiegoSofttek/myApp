@@ -4,12 +4,12 @@ import { signInUser } from '../config/authCall';
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 
-export default function Login({mail}) {
+export default function Login() {
 
     const {user} = useAuth();
     const navigate = useNavigate();
 
-    const [userName, setUserName] = useState(mail);
+    const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
 
     const changeUserName = (inputValue) => {

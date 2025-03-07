@@ -25,6 +25,8 @@ export default function Navbar() {
 
     if(user){
       readUser();
+    }else{
+      setLocalUser(null); //Limpiar el estado del usuario cuando se desloguea
     }
 
   }, [user]);
@@ -87,7 +89,7 @@ export default function Navbar() {
   return (
     <div style={
       {
-        backgroundColor: '#f0f2f5',
+        backgroundColor: '#722ed1',
         width: '100%',
         padding: '10px'
       }
@@ -103,19 +105,21 @@ export default function Navbar() {
                 }
               }>
 
-              {/* <h2 style={{color: 'black', fontSize: '20px', margin: '0'}}>  
-                {user ? 'Hola ' : ''}
-                <span style={{color: 'green'}}>{getEmail()}</span>
-              </h2> */}
-
-              <h2 style={{color: 'black', fontSize: '20px', margin: '0'}}>
-                { localUser && <>Hola {localUser.name} {localUser.lastname}</>}
-                {/* {localUser && <>{name + ' ' + lastname}</>}  */}
-              </h2>
+              <h1 className='title'>
+                To-Do List
+              </h1>
 
               { user ? 
                 (
-                  <Button onClick={logout} color='red' variant='solid' style={{fontWeight: 'bold'}}>Log Out</Button>
+                  <>
+                    <div style={{display: 'flex', gap: '1rem'}}>
+                      <h2 style={{color: 'white', fontSize: '20px', margin: '0'}}>
+                        { localUser && <>Hola {localUser.name} {localUser.lastname}</>}
+                        {/* {localUser && <>{name + ' ' + lastname}</>}  */}
+                      </h2>
+                      <Button onClick={logout} color='red' variant='solid' style={{fontWeight: 'bold'}}>Log Out</Button>
+                    </div>
+                  </>
                 )
                 : 
                 (
@@ -125,11 +129,10 @@ export default function Navbar() {
                         display: 'flex', 
                         justifyContent: 'space-between', 
                         alignItems: 'center', 
-                        margin: '0 1rem'
                       }
                     }>
-                      <Button onClick={registerNavigate} color="orange" variant="outline" style={{fontWeight: 'bold'}}>Registrate</Button>
-                      <Button onClick={loginNavigate} color="purple" variant="solid" style={{fontWeight: 'bold', margin: '0 0 0 1rem'}}>Log In</Button>
+                      <Button onClick={registerNavigate} style={{fontWeight: 'bold', backgroundColor: 'white'}} color='purple' variant='text'>Registrate</Button>
+                      <Button onClick={loginNavigate} color="orange" variant="solid" style={{fontWeight: 'bold', margin: '0 0 0 1rem'}}>Log In</Button>
                     </div>
                   </>
                 ) 

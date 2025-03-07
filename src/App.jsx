@@ -13,14 +13,14 @@ function App() {
     <>
       <BrowserRouter>
         <AuthProvider>
-
+          
           <Navbar></Navbar>
 
           <div className='card'>
             <Routes>
               <Route
                 path='/login'
-                element={<Login mail={'diegoa.cruz@softtek.com'}></Login>}
+                element={<Login></Login>}
               >
               </Route>
 

@@ -1,7 +1,9 @@
+import { addDoc, doc, getFirestore, setDoc } from "firebase/firestore";
 import firebaseAcademia from "./firebaseConfig";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 
 const auth = getAuth(firebaseAcademia);
+const db = getFirestore(firebaseAcademia);
 
 export const signInUser = (email, password) => {
 
@@ -9,7 +11,7 @@ export const signInUser = (email, password) => {
     .then((userCredential) => {
         // Signed in 
         //const user = userCredential.user;
-        console.log(userCredential);
+        //console.log(userCredential);
     })
     .catch((error) => {
         // const errorCode = error.code;
@@ -28,12 +30,15 @@ export const signInUser = (email, password) => {
     // }
 }
 
-export const createUser = (email, password) => {
+export const createUser = (path, email, password, name, lastname) => {
     createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
+    .then(async (userCredential) => {
         // Signed up 
-        //const user = userCredential.user;
-        console.log(userCredential);
+        const user = userCredential.user;
+        //console.log(userCredential);
+
+        await createUserDocument(path, user, name, lastname, email);
+        //console.log(user);
     })
     .catch((error) => {
         // const errorCode = error.code;
@@ -42,10 +47,24 @@ export const createUser = (email, password) => {
     });
 }
 
+export const createUserDocument = async(path, user, name, lastname, email) => {
+    const userDocRef = doc(db, path, user.uid);
+    const userData = {
+        id_user: user.uid,
+        name: name,
+        lastname: lastname,
+        email: email,
+        permission: 'read',
+        created_at: new Date()
+    };
+
+    await setDoc(userDocRef, userData);
+}
+
 export const logoutFirebase = () => {
     signOut(auth).then(() => {
         // Sign-out successful.
-        console.log('Cerró Sesión');
+        //console.log('Cerró Sesión');
     }).catch((error) => {
         // An error happened.
         console.log(error);
