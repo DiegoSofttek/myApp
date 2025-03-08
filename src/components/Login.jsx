@@ -11,6 +11,7 @@ export default function Login() {
 
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
     const changeUserName = (inputValue) => {
       setUserName(inputValue.target.value);
@@ -38,8 +39,12 @@ export default function Login() {
     //   }
     // }
 
-    const login = () => {
-      signInUser(userName, password);
+    const login = async() => {
+      try{
+        await signInUser(userName, password);
+      }catch(error){
+        setError('Error al iniciar sesión');
+      }
     }
 
   return (
@@ -54,6 +59,8 @@ export default function Login() {
 
         <Col xs={24} md={12} className='auth-fields'>
           <h2>Inicía Sesión</h2>
+
+          {error && <p className='error'>{error}</p>}
           
           <Row>
             <Col xs={24}>
@@ -84,7 +91,13 @@ export default function Login() {
           </Row>
 
           <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'end', margin: '2rem 0 0 0'}}>
-            <Button onClick={login} color='purple' variant='solid' style={{fontWeight: 'bold'}}>Log In</Button>
+            <Button 
+              onClick={login} 
+              color='purple' 
+              variant='solid' 
+              style={{fontWeight: 'bold'}}
+              disabled={!userName || !password}
+            >Log In</Button>
           </div>
         </Col>
       </Row>

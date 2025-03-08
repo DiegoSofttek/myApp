@@ -13,6 +13,7 @@ export default function Register() {
     const [name, setName] = useState('');
     const [lastname, setLastname] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
     useEffect(() => {
       if(user) navigate('/home');
@@ -34,16 +35,17 @@ export default function Register() {
       setPassword(inputValue.target.value);
     }
 
-    const register = () => {
+    const register = async() => {
       // console.log(userName);
       // console.log(password);
       
       try{
-        const userCredential = createUser('users', userName, password, name, lastname)
-        console.log(userCredential);
+        await createUser('users', userName, password, name, lastname)
+        //console.log(userCredential);
 
       }catch(error){
-        console.log(error);
+        //console.log(error);
+        setError('Error al registrate');
       }
     }
 
@@ -57,6 +59,8 @@ export default function Register() {
         
         <Col xs={24} md={12} className='register-fields'>
           <h2>Regístrate</h2>
+
+          {error && <p className='error'>{error}</p>}
 
           <Row>
             <Col xs={24}>
@@ -113,7 +117,13 @@ export default function Register() {
           </Row>
 
           <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'end', margin: '2rem 0 0 0'}}>
-            <Button onClick={register} color='purple' variant='solid' style={{fontWeight: 'bold'}}>Regístrate</Button>
+            <Button 
+              onClick={register} 
+              color='purple' 
+              variant='solid' 
+              style={{fontWeight: 'bold'}}
+              disabled={!name || !lastname || !userName || !password}
+            >Regístrate</Button>
           </div>
 
         </Col>

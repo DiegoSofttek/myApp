@@ -5,18 +5,20 @@ import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, si
 const auth = getAuth(firebaseAcademia);
 const db = getFirestore(firebaseAcademia);
 
-export const signInUser = (email, password) => {
+export const signInUser = async(email, password) => {
 
-    signInWithEmailAndPassword(auth, email, password)
+    await signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
         // Signed in 
         //const user = userCredential.user;
         //console.log(userCredential);
+        //return userCredential;
     })
     .catch((error) => {
         // const errorCode = error.code;
         // const errorMessage = error.message;
-        console.log(error);
+        //console.log(error);
+        throw error;
     });
 
     //Lo podemos utilizar cuando la función es asincrona
@@ -30,31 +32,37 @@ export const signInUser = (email, password) => {
     // }
 }
 
-export const createUser = (path, email, password, name, lastname) => {
-    createUserWithEmailAndPassword(auth, email, password)
+export const createUser = async (path, email, password, name, lastname) => {
+    await createUserWithEmailAndPassword(auth, email, password)
     .then(async (userCredential) => {
         // Signed up 
-        const user = userCredential.user;
+        //const user = userCredential.user;
         //console.log(userCredential);
 
-        await createUserDocument(path, user, name, lastname, email);
+        await createUserDocument(path, name, lastname, email);
         //console.log(user);
+        //return userCredential;
     })
     .catch((error) => {
         // const errorCode = error.code;
         // const errorMessage = error.message;
-        console.log(error);
+        //console.log(error);
+        throw error;
     });
 }
 
-export const createUserDocument = async(path, user, name, lastname, email) => {
-    const userDocRef = doc(db, path, user.uid);
+export const createUserDocument = async(path, name, lastname, email) => {
+    const userDocRef = doc(db, path, email);
     const userData = {
         id_user: user.uid,
         name: name,
         lastname: lastname,
         email: email,
-        permission: 'read',
+        permissions: {
+            Read: true,
+            Write: false,
+            Delete: false
+        },
         created_at: new Date()
     };
 
