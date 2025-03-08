@@ -90,7 +90,7 @@ export default function Login() {
             </Col>
           </Row>
 
-          <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'end', margin: '2rem 0 0 0'}}>
+          <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'end', marginTop: '2rem'}}>
             <Button 
               onClick={login} 
               color='purple' 
