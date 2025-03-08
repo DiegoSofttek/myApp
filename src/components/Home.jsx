@@ -3,9 +3,10 @@ import { useAuth } from '../hooks/useAuth'
 import { useNavigate } from 'react-router-dom';
 import { Button, Col, Input, Pagination, Row } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
-import { createTaksFirestore, deleteTaskFirestore, readDataTasksFirestore, readDataUserFirestore, updateTaskFirestore } from '../config/firestoreCalls';
 import { DeleteFilled, EditFilled } from '@ant-design/icons';
 import Swal from 'sweetalert2';
+import { formatDate, convertTimestampToDate } from '../utilities/utils';
+import { createTaskService, deleteTaskService, getUserPermissionService, readTasksService, updateTaskService } from '../services/taskServices';
 
 export default function Home() {
 
@@ -25,126 +26,39 @@ export default function Home() {
 
   useEffect(() => {
     if(tasks.length === 0){
-      getUserPermission();
-      readTasks();
+      getUserPermissionService(user, setUserPermission);
+      readTasksService(setTasks);
     }
   }, [tasks]);
 
-  //Verificar el permiso del usuario
-  const getUserPermission = async() => {
-    try{
-      
-      //Traer los datos del usuario
-      const userDoc = await readDataUserFirestore('users', 'email', user.email);
-
-      if(!userDoc.empty){
-        const userData = userDoc.docs[0].data();
-        //console.log(userData);
-        //setUserPermission(userData.permission);
-        //console.log(userData.permissions.Read);
-
-        const permissions = userData.permissions;
-        //console.log(permissions);
-
-        setUserPermission(permissions);
-      }else{
-        console.log('No existe documento');
-      }
-
-    }catch(error){  
-      console.log(error);
-    }
-  }
-
-  //Leer la lista de tareas
-  const readTasks = async () => {
-
-    const lcTasks = await readDataTasksFirestore('tasks', 'created_at');
-
-    if(!lcTasks.empty){
-      // lcTasks.docs.forEach(doc => {
-      //   //console.log(doc.data());
-      //   //setTasks(doc.data());
-      // });
-
-      //Creamos un nuevo arreglo en listTasks con map y lo seteamos
-      const listTasks = lcTasks.docs.map(doc => doc.data());
-      setTasks(listTasks);
-    }else{
-      setTasks([]); // Asegúra de que el estado se vacíe si no hay tareas
-    }
-  }
-
   //Crear tarea
   const createTask = async () => {
-
-    const newTask = {
-      title,
-      content,
-      creator: user.email,
-      created_at: new Date() 
-    }
-
-    await createTaksFirestore('tasks', newTask);
-
-    //Limpiar formulario
-    setTitle('');
-    setContent('');
-
-    readTasks(); //Actualiza las listas después de crear una tarea
-    
-    Swal.fire(
-      'Tarea Agregada',
-      '',
-      'success'
-    )
+    await createTaskService(title, content, user, setTitle, setContent, setTasks, readTasksService);
   }
 
   //Actualizar Tarea
-  const updateTask = async() => {
-
-    if(editTask){
-
-      const updateTask = {
-        ...editTask, //Se copian todas las propiedades del objeto
-        title,
-        content
-      };
-
-      //console.log(editTask.id_task);
-
-      await updateTaskFirestore('tasks', editTask.id_task, updateTask);
-      
-      setEditTask(null);
-      setTitle('');
-      setContent('');
-      readTasks();
-
-      Swal.fire(
-        'Tarea Actualizada!',
-        '',
-        'success'
-      )
-    }
-  }
 
   //Iniciar la edición de la tarea
   const startEdit = (task) => {
     
     // if(task.creator === user.email){
-
-    //   setEditTask(task);
-    //   setTitle(task.title);
-    //   setContent(task.content);
-    // }else{
-    //   console.log('No tienes permiso de editar esta tarea');
-    // }
-    
-    //console.log(task);
-
+  
+      //   setEditTask(task);
+      //   setTitle(task.title);
+      //   setContent(task.content);
+      // }else{
+      //   console.log('No tienes permiso de editar esta tarea');
+      // }
+      
+      //console.log(task);
+  
     setEditTask(task);
     setTitle(task.title);
     setContent(task.content);
+  }
+
+  const updateTask = async() => {
+    await updateTaskService(editTask, title, content, setEditTask, setTitle, setContent, setTasks, readTasksService);
   }
 
   //Cancelar la edición de la tarea
@@ -152,12 +66,6 @@ export default function Home() {
     setEditTask(null);
     setTitle('');
     setContent('');
-  }
-
-  //Eliminar tarea
-  const deleteTask = async (id_task) => {
-    await deleteTaskFirestore('tasks', id_task);
-    readTasks();
   }
 
   //Confirma la eliminación de la tarea
@@ -174,7 +82,7 @@ export default function Home() {
 
       if(result.isConfirmed){
         
-        deleteTask(id_task);
+        deleteTaskService(id_task, setTasks, readTasksService);
 
         Swal.fire(
           'Tarea Eliminada',
@@ -183,30 +91,6 @@ export default function Home() {
         );
       }
     });
-  }
-
-  // Función para convertir un timestamp de Firebase a un objeto Date de JavaScript
-  const convertTimestampToDate = (timestamp) => {
-    //El objeto Date de JS utiliza milisegundos para medir el tiempo
-    //1 segundos = 1,000 milisegundos
-    //1 nanosegundo = 1/1,000,000 de segundo)
-    // 1 milisegundo = 1,000,000 nanosegundos
-
-    // Crear un nuevo objeto Date utilizando los segundos y nanosegundos del timestamp
-    // Multiplicamos los segundos por 1000 para convertirlos a milisegundos
-    // Dividimos los nanosegundos por 1000000 para convertirlos a milisegundos
-    const date = new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000);
-    //console.log(date);
-    return date;
-  }
-
-  // Función para formatear un objeto Date en un string legible
-  const formatDate = (date) => {
-    // Opciones de formato para la fecha: año, mes (en formato largo) y día
-    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-
-    // Convertir la fecha a un string utilizando las opciones especificadas y el idioma español
-    return date.toLocaleDateString('es-ES', options);
   }
 
   const changeTitle = (inputValue) => {
@@ -219,6 +103,7 @@ export default function Home() {
     setContent(inputValue.target.value);
   }
 
+  //Paginación
   const handlePageChange = (page, pageSize) => {
     setCurrentPage(page);
     setPageSize(pageSize);
