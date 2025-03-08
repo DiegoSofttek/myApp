@@ -16,7 +16,7 @@ export default function Home() {
   const [content, setContent] = useState('');
   const [editTask, setEditTask] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(3);
+  const [pageSize, setPageSize] = useState(5);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -95,7 +95,7 @@ export default function Home() {
     
     Swal.fire(
       'Tarea Agregada',
-      'La tarea ha sido agregada',
+      '',
       'success'
     )
   }
@@ -122,7 +122,7 @@ export default function Home() {
 
       Swal.fire(
         'Tarea Actualizada!',
-        'La tarea ha sido actualizada',
+        '',
         'success'
       )
     }
@@ -178,7 +178,7 @@ export default function Home() {
 
         Swal.fire(
           'Tarea Eliminada',
-          'La tarea ha sido eliminada',
+          '',
           'success'
         );
       }
@@ -228,11 +228,6 @@ export default function Home() {
 
   return (
     <div>
-          {/* <BrowserRouter>
-            <AuthProvider>
-              <Navbar></Navbar>
-            </AuthProvider>
-          </BrowserRouter> */}
         <h1>Tareas</h1>
 
         <div className='tasks-container'>
