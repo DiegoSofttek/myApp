@@ -40,6 +40,15 @@ export const createTaksFirestore = async(path, task) => {
     }
 }
 
+export const updateTaskFirestore = async(path, id_task, updateTask) => {
+    try{
+        const docRef = doc(db, path, id_task);
+        await updateDoc(docRef, updateTask);
+    }catch(error){
+        console.log(error);
+    }
+}
+
 export const deleteTaskFirestore = async(path, id_task) => {
     try{
         const docRef = doc(db, path, id_task);
