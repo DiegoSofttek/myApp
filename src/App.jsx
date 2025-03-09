@@ -5,6 +5,8 @@ import Login from './components/Login'
 import Register from './components/Register'
 import { AuthProvider } from './hooks/useAuth'
 import { ProtectedRoute } from './components/ProtectedRoute'
+import { PublicRoute } from './components/PublicRoute'
+import { RedirectRoute } from './components/RedirectRoute'
 import Home from './components/Home'
 import Navbar from './components/Navbar';
 
@@ -18,17 +20,27 @@ function App() {
 
           <div className='card'>
             <Routes>
-              <Route
-                path='/login'
-                element={<Login></Login>}
-              >
-              </Route>
+
+              {/* Redireccion automática según estado del usuario */}
+              <Route path='/' element={<RedirectRoute />} />
 
               <Route
+                path='/login'
+                element={
+                  <PublicRoute>
+                    <Login />
+                  </PublicRoute>
+                }
+              />
+              
+              <Route
                 path='/register'
-                element={<Register></Register>}
-              >
-              </Route>
+                element={
+                  <PublicRoute>
+                    <Register />
+                  </PublicRoute>
+                }
+              />
 
               <Route
                 path='/home'

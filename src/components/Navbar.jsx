@@ -100,19 +100,18 @@ export default function Navbar() {
                 {
                   display: 'flex', 
                   justifyContent: 'space-between', 
-                  alignItems: 'center', 
-                  margin: '0 1rem'
+                  alignItems: 'center'
                 }
               }>
 
-              <h1 className='title'>
+              <h1 className='title' style={{margin: '0', padding: '0'}}>
                 To-Do List
               </h1>
 
               { user ? 
                 (
                   <>
-                    <div style={{display: 'flex', gap: '1rem'}}>
+                    <div style={{display: 'flex', gap: '1rem', alignItems: 'center', justifyContent: 'center'}}>
                       <h2 style={{color: 'white', fontSize: '20px', margin: '0'}}>
                         { localUser && <>Hola {localUser.name} {localUser.lastname}</>}
                         {/* {localUser && <>{name + ' ' + lastname}</>}  */}
