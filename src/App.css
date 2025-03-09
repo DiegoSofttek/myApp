@@ -232,8 +232,8 @@ html body{
 @media(min-width: 768px){
   .list-tasks-container{
     width: 700px;
-    padding: 1rem;
     margin: 0 auto;
+    padding: 0;
   }
   .list-tasks-container.read-delete{
     margin: 0 auto;
