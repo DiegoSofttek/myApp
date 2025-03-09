@@ -102,6 +102,10 @@ html body{
   }
 }
 
+.auth-container{
+  background-color: #f8f3ff;
+}
+
 .auth-fields, .register-fields {
   margin: 1rem 3rem;
   padding-bottom: 2rem;
@@ -189,7 +193,6 @@ html body{
 }
 .form-task-container h2{
   margin: 0 0 2rem 0;
-  color: var(--orange);
 }
 .form-task-container .text-area{
   resize: none;
@@ -208,7 +211,7 @@ html body{
 }
 
 .list-tasks-container{
-  background-color: var(--orange);
+  /* background-color: var(--orange); */
   padding: 1rem 1.5rem;
   border-radius: 0.5rem;
   max-width: 100%;
@@ -254,6 +257,9 @@ html body{
 
 .task-content{
   flex-grow: 1; /* Permite que el contenido tome todo el espacio disponible */
+  border: 1px solid #722ed1;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgb(0, 0, 0, 0.25);
 }
 
 .task-header{
