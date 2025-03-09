@@ -62,7 +62,7 @@ export default function Login() {
 
           {error && <p className='error'>{error}</p>}
           
-          <Row>
+          <Row gutter={[16, 16]}>
             <Col xs={24}>
                 <label>Email:</label>
                 <Input

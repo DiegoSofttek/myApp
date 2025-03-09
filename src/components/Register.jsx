@@ -62,7 +62,7 @@ export default function Register() {
 
           {error && <p className='error'>{error}</p>}
 
-          <Row>
+          <Row gutter={[10, 10]}>
             <Col xs={24}>
               <label>Nombre:</label>
               <Input
