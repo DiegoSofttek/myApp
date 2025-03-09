@@ -36,10 +36,10 @@ export const createUser = async (path, email, password, name, lastname) => {
     await createUserWithEmailAndPassword(auth, email, password)
     .then(async (userCredential) => {
         // Signed up 
-        //const user = userCredential.user;
+        const user = userCredential.user;
         //console.log(userCredential);
 
-        await createUserDocument(path, name, lastname, email);
+        await createUserDocument(path, user, name, lastname, email);
         //console.log(user);
         //return userCredential;
     })
@@ -51,7 +51,7 @@ export const createUser = async (path, email, password, name, lastname) => {
     });
 }
 
-export const createUserDocument = async(path, name, lastname, email) => {
+export const createUserDocument = async(path, user, name, lastname, email) => {
     const userDocRef = doc(db, path, email);
     const userData = {
         id_user: user.uid,
