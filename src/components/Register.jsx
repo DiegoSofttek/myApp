@@ -40,7 +40,7 @@ export default function Register() {
       // console.log(password);
       
       try{
-        await createUser('users', user, userName, password, name, lastname)
+        await createUser('users', userName, password, name, lastname)
         //console.log(userCredential);
 
       }catch(error){

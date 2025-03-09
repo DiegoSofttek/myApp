@@ -32,11 +32,11 @@ export const signInUser = async(email, password) => {
     // }
 }
 
-export const createUser = async (path, user, email, password, name, lastname) => {
+export const createUser = async (path, email, password, name, lastname) => {
     await createUserWithEmailAndPassword(auth, email, password)
     .then(async (userCredential) => {
         // Signed up 
-        //const user = userCredential.user;
+        const user = userCredential.user;
         //console.log(userCredential);
 
         await createUserDocument(path, user, name, lastname, email);
