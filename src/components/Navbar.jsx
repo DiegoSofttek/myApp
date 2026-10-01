@@ -130,8 +130,8 @@ export default function Navbar() {
                         alignItems: 'center', 
                       }
                     }>
-                      <Button onClick={registerNavigate} style={{fontWeight: 'bold', backgroundColor: 'white'}} color='purple' variant='text'>Registrate</Button>
-                      <Button onClick={loginNavigate} color="orange" variant="solid" style={{fontWeight: 'bold', margin: '0 0 0 1rem'}}>Log In</Button>
+                      <Button onClick={registerNavigate} style={{fontWeight: 'bold', backgroundColor: 'white', height: '36px', padding: '0 18px'}} color='purple' variant='text'>Registrate</Button>
+                      <Button onClick={loginNavigate} color="orange" variant="solid" style={{fontWeight: 'bold', margin: '0 0 0 1rem', height: '36px', padding: '0 18px'}}>Log In</Button>
                     </div>
                   </>
                 ) 
