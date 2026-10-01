@@ -5,8 +5,12 @@ export const PublicRoute = ({children}) => {
     const {user} = useAuth();
 
     //Si esta logueado redirige a home
-    if(user){
+    /*if(user){
         <Navigate to="/home" replace></Navigate>
+    }*/
+
+    if(user){
+        return <Navigate to="/home" replace></Navigate> // <-- Agrega la palabra 'return' aquí
     }
 
     // Si no está logueado, permite mostrar el componente (Login o Register)
