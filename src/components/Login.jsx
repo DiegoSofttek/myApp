@@ -9,8 +9,8 @@ export default function Login() {
     const {user} = useAuth();
     const navigate = useNavigate();
 
-    const [userName, setUserName] = useState('');
-    const [password, setPassword] = useState('');
+    const [userName, setUserName] = useState('johndoe@gmail.com');
+    const [password, setPassword] = useState('password123');
     const [error, setError] = useState('');
 
     const changeUserName = (inputValue) => {
@@ -96,7 +96,6 @@ export default function Login() {
               color='purple' 
               variant='solid' 
               style={{fontWeight: 'bold'}}
-              disabled={!userName || !password}
             >Log In</Button>
           </div>
         </Col>

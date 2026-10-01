@@ -129,8 +129,8 @@ html body{
 }
 @media(min-width: 768px){
   .auth-fields{
-    width: 50%;
-    margin: 4rem 3rem;
+    width: 100%;
+    margin: 4rem 2rem 4rem 1rem;
   }
   .auth-fields h2{
     margin-bottom: 5rem;
