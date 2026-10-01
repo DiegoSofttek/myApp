@@ -93,24 +93,24 @@ html body{
 /* Auth Styles */
 .auth-container {
   padding: 0;
-  background-color: white;
+  background-color: #f8f3ff;
   border-radius: 0.5rem;
-  max-width: 1000px;
-  margin: 0 auto;
+  max-width: 1120px;
+  margin: 1.5rem auto 0;
   display: flex;
-  flex-direction: column; /* Cambia a columna para mejor manejo responsivo */
+  flex-direction: column;
+}
+
+.auth-card-row{
+  width: 100%;
 }
 
 @media(min-width: 768px){
   .auth-container{
     flex-direction: row;
-    margin-top: 4rem;
-    max-height: 500px;
+    margin-top: 5.5rem;
+    min-height: 560px;
   }
-}
-
-.auth-container{
-  background-color: #f8f3ff;
 }
 
 .auth-fields, .register-fields {
@@ -119,10 +119,26 @@ html body{
   flex: 1; /* Permite que el formulario tome el espacio restante */
 }
 
+.auth-fields{
+  display: flex;
+  align-items: stretch;
+}
+
+.auth-form-panel{
+  width: 100%;
+  padding: 2.25rem 0 0.5rem;
+}
+
 .auth-fields h2, .register-fields h2{
   color: var(--purple);
   margin-bottom: 2rem;
 }
+
+.auth-form-panel h2{
+  font-size: 2rem;
+  margin: 0 0 3.5rem 0;
+}
+
 .auth-fields label, .register-fields label{
   color: var(--orange);
   font-weight: bold;
@@ -147,13 +163,22 @@ html body{
   width: 100%;
 }
 
+.auth-button-row,
 .register-button-row{
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+}
+
+.auth-button-row{
+  margin-top: 3rem;
+}
+
+.register-button-row{
   margin-top: 2.5rem;
 }
 
+.auth-submit-button,
 .register-submit-button{
   min-width: 160px;
   height: 44px;
@@ -163,11 +188,17 @@ html body{
 
 @media(min-width: 768px){
   .auth-fields{
-    width: 50%;
-    margin: 4rem 3rem;
+    width: 100%;
+    margin: 0;
+    padding: 0 2.75rem 0 1.5rem;
+    align-items: center;
   }
   .auth-fields h2{
-    margin-bottom: 5rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .auth-form-panel{
+    padding: 4.25rem 0 0.5rem;
   }
 
   .register-fields{
@@ -188,6 +219,10 @@ html body{
 }
 
 @media(min-width: 992px){
+  .auth-form-panel{
+    padding: 4.75rem 0.25rem 0.5rem 0;
+  }
+
   .register-fields{
     padding: 0 2.75rem 0 1.5rem;
   }
@@ -220,14 +255,19 @@ html body{
 }
 .img-auth {
   width: 100%;
-  height: 200px;
+  height: 240px;
   object-fit: cover;
   border-radius: 0.5rem 0.5rem 0 0;
 }
 
 @media(min-width: 768px){
+  .img-auth-container{
+    display: flex;
+  }
+
   .img-auth{
     height: 100%;
+    min-height: 560px;
     border-radius: 0.5rem 0 0 0.5rem;
   }
 }

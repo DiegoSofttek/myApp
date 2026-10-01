@@ -52,52 +52,54 @@ export default function Login() {
       {/* {JSON.stringify(user)} */}
       {/* {JSON.stringify(user.providerData[0].uid)} */}
       
-      <Row>
-        <Col xs={24} md={12} className='img-auth-container'>
+      <Row className='auth-card-row'>
+        <Col xs={24} md={14} className='img-auth-container'>
           <img src='login.jpg' className='img-auth' alt='image auth'></img>
         </Col>
 
-        <Col xs={24} md={12} className='auth-fields'>
-          <h2>Inicía Sesión</h2>
+        <Col xs={24} md={10} className='auth-fields'>
+          <div className='auth-form-panel'>
+            <h2>Inicía Sesión</h2>
 
-          {error && <p className='error'>{error}</p>}
-          
-          <Row gutter={[16, 16]}>
-            <Col xs={24}>
-                <label>Email:</label>
-                <Input
-                    size='large'
-                    type="email"
-                    placeholder="Email"
-                    value={userName}
-                    onChange={changeUserName}
-                    className='input'
-                >
-                </Input>
-            </Col>
+            {error && <p className='error'>{error}</p>}
+            
+            <Row gutter={[16, 22]}>
+              <Col xs={24}>
+                  <label>Email:</label>
+                  <Input
+                      size='large'
+                      type="email"
+                      placeholder="Email"
+                      value={userName}
+                      onChange={changeUserName}
+                      className='input'
+                  >
+                  </Input>
+              </Col>
 
-            <Col xs={24}>
-                <label>Password:</label>
-                <Input.Password
-                    size='large'
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={changePassword}
-                    className='input'
-                >
-                </Input.Password>
-            </Col>
-          </Row>
+              <Col xs={24}>
+                  <label>Password:</label>
+                  <Input.Password
+                      size='large'
+                      type="password"
+                      placeholder="Password"
+                      value={password}
+                      onChange={changePassword}
+                      className='input'
+                  >
+                  </Input.Password>
+              </Col>
+            </Row>
 
-          <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'end', marginTop: '2rem'}}>
-            <Button 
-              onClick={login} 
-              color='purple' 
-              variant='solid' 
-              style={{fontWeight: 'bold'}}
-              disabled={!userName || !password}
-            >Log In</Button>
+            <div className='auth-button-row'>
+              <Button 
+                onClick={login} 
+                color='purple' 
+                variant='solid' 
+                className='auth-submit-button'
+                disabled={!userName || !password}
+              >Log In</Button>
+            </div>
           </div>
         </Col>
       </Row>
