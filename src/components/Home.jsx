@@ -25,9 +25,21 @@ export default function Home() {
   const [pageSize, setPageSize] = useState(5);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (!user) navigate('/login');
-  }, [user]);
+  }, [user]);*/
+
+  useEffect(() => {
+    // Solo redirige al login si YA terminó de cargar y de verdad no hay usuario
+    if (!loading && !user) {
+      navigate('/login');
+    }
+  }, [user, loading, navigate]);
+
+  // Si todavía está cargando la sesión, muestra un indicador en lugar de romper el flujo
+  if (loading) {
+    return <div>Cargando sesión...</div>;
+  }
 
   useEffect(() => {
     if (tasks.length === 0) {
