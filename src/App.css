@@ -127,6 +127,40 @@ html body{
   color: var(--orange);
   font-weight: bold;
 }
+
+.register-fields{
+  display: flex;
+  align-items: stretch;
+}
+
+.register-form-panel{
+  width: 100%;
+  padding: 1.5rem 1.75rem 2rem;
+}
+
+.register-form-panel h2{
+  font-size: 2rem;
+  margin: 1rem 0 2.5rem 0;
+}
+
+.register-input{
+  width: 100%;
+}
+
+.register-button-row{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top: 2.5rem;
+}
+
+.register-submit-button{
+  min-width: 160px;
+  height: 44px;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
 @media(min-width: 768px){
   .auth-fields{
     width: 50%;
@@ -137,10 +171,29 @@ html body{
   }
 
   .register-fields{
-    margin-top: 3rem;
+    width: 50%;
+    margin: 0;
+    padding: 0 2rem;
+    align-items: center;
   }
-  .register-fields h2{
-    margin-bottom: 2rem;
+
+  .register-form-panel{
+    max-width: 100%;
+    padding: 3rem 2.25rem 2.5rem;
+  }
+
+  .register-form-panel h2{
+    margin: 1.25rem 0 2.5rem 0;
+  }
+}
+
+@media(min-width: 992px){
+  .register-fields{
+    padding: 0 2.75rem 0 1.5rem;
+  }
+
+  .register-form-panel{
+    padding: 3.25rem 2.5rem 2.75rem;
   }
 }
 

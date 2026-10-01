@@ -1,6 +1,6 @@
 import { Button, Col, Input, Row } from 'antd'
 import React, { useEffect, useState } from 'react'
-import { createUser, createUserDocument } from '../config/authCall';
+import { createUser } from '../config/authCall';
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,10 +9,10 @@ export default function Register() {
     const {user} = useAuth();
     const navigate = useNavigate();
 
-    const [userName, setUserName] = useState('');
-    const [name, setName] = useState('');
-    const [lastname, setLastname] = useState('');
-    const [password, setPassword] = useState('');
+    const [userName, setUserName] = useState('ana.garcia@email.com');
+    const [name, setName] = useState('Ana');
+    const [lastname, setLastname] = useState('García');
+    const [password, setPassword] = useState('12345678');
     const [error, setError] = useState('');
 
     useEffect(() => {
@@ -36,15 +36,9 @@ export default function Register() {
     }
 
     const register = async() => {
-      // console.log(userName);
-      // console.log(password);
-      
       try{
         await createUser('users', userName, password, name, lastname)
-        //console.log(userCredential);
-
       }catch(error){
-        //console.log(error);
         setError('Error al registrate');
       }
     }
@@ -58,74 +52,75 @@ export default function Register() {
         </Col>
         
         <Col xs={24} md={12} className='register-fields'>
-          <h2>Regístrate</h2>
+          <div className='register-form-panel'>
+            <h2>Regístrate</h2>
 
-          {error && <p className='error'>{error}</p>}
+            {error && <p className='error'>{error}</p>}
 
-          <Row gutter={[10, 10]}>
-            <Col xs={24}>
-              <label>Nombre:</label>
-              <Input
-                size='large'
-                type='text'
-                placeholder='Nombre'
-                className='input'
-                value={name}
-                onChange={changeName}
-              >
-              </Input>
-            </Col>
-
-            <Col xs={24}>
-              <label>Apellido:</label>
-              <Input
-                size='large'
-                type='text'
-                placeholder='Apellido'
-                className='input'
-                value={lastname}
-                onChange={changeLastname}
-              >
-              </Input>
-            </Col>
-
-            <Col xs={24}>
-                <label>Email:</label>
+            <Row gutter={[16, 18]}>
+              <Col xs={24}>
+                <label>Nombre:</label>
                 <Input
-                    size='large'
-                    type="email"
-                    placeholder="Email"
-                    value={userName}
-                    onChange={changeUserName}
-                    className='input'
+                  size='large'
+                  type='text'
+                  placeholder='Nombre'
+                  className='input register-input'
+                  value={name}
+                  onChange={changeName}
                 >
                 </Input>
-            </Col>
+              </Col>
 
-            <Col xs={24}>
-                <label>Password:</label>
-                <Input.Password
-                    size='large'
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={changePassword}
-                    className='input'
+              <Col xs={24}>
+                <label>Apellido:</label>
+                <Input
+                  size='large'
+                  type='text'
+                  placeholder='Apellido'
+                  className='input register-input'
+                  value={lastname}
+                  onChange={changeLastname}
                 >
-                </Input.Password>
-            </Col>
-          </Row>
+                </Input>
+              </Col>
 
-          <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'end', marginTop: '2rem'}}>
-            <Button 
-              onClick={register} 
-              color='purple' 
-              variant='solid' 
-              style={{fontWeight: 'bold'}}
-              disabled={!name || !lastname || !userName || !password}
-            >Regístrate</Button>
+              <Col xs={24}>
+                  <label>Email:</label>
+                  <Input
+                      size='large'
+                      type="email"
+                      placeholder="Email"
+                      value={userName}
+                      onChange={changeUserName}
+                      className='input register-input'
+                  >
+                  </Input>
+              </Col>
+
+              <Col xs={24}>
+                  <label>Password:</label>
+                  <Input.Password
+                      size='large'
+                      type="password"
+                      placeholder="Password"
+                      value={password}
+                      onChange={changePassword}
+                      className='input register-input'
+                  >
+                  </Input.Password>
+              </Col>
+            </Row>
+
+            <div className='register-button-row'>
+              <Button 
+                onClick={register} 
+                color='purple' 
+                variant='solid' 
+                className='register-submit-button'
+                disabled={false}
+              >Regístrate</Button>
+            </div>
           </div>
-
         </Col>
 
       </Row>
