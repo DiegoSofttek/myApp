@@ -122,10 +122,13 @@ html body{
 .auth-fields h2, .register-fields h2{
   color: var(--purple);
   margin-bottom: 2rem;
+  font-size: 2.25rem;
+  font-weight: 700;
 }
 .auth-fields label, .register-fields label{
   color: var(--orange);
   font-weight: bold;
+  font-size: 1rem;
 }
 @media(min-width: 768px){
   .auth-fields{
@@ -138,7 +141,7 @@ html body{
   }
 
   .register-fields{
-    margin-top: 3rem;
+    margin: 3rem 2rem 2rem 1rem;
   }
   .register-fields h2{
     margin-bottom: 2rem;

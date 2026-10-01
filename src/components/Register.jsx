@@ -9,10 +9,10 @@ export default function Register() {
     const {user} = useAuth();
     const navigate = useNavigate();
 
-    const [userName, setUserName] = useState('');
-    const [name, setName] = useState('');
-    const [lastname, setLastname] = useState('');
-    const [password, setPassword] = useState('');
+    const [userName, setUserName] = useState('correo@ejemplo.com');
+    const [name, setName] = useState('María');
+    const [lastname, setLastname] = useState('González');
+    const [password, setPassword] = useState('Password123');
     const [error, setError] = useState('');
 
     useEffect(() => {
