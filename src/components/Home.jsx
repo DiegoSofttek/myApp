@@ -50,6 +50,19 @@ export default function Home() {
     }
   }, [user, loading, tasks]);
 
+  useEffect(() => {
+    if (!loading && user && !editTask && tasks.length > 0) {
+      const preferredTask =
+        tasks.find((task) => task.title === 'Video del proyecto') || tasks[0];
+
+      if (preferredTask) {
+        setEditTask(preferredTask);
+        setTitle(preferredTask.title || '');
+        setContent(preferredTask.content || '');
+      }
+    }
+  }, [loading, user, tasks, editTask]);
+
   // Si todavía está cargando la sesión, muestra un indicador en lugar de romper el flujo
   // if (loading) {
   //   return <div>Cargando sesión...</div>;
@@ -154,26 +167,72 @@ export default function Home() {
   );
 
   return (
-    <div>
-      <h2 style={{ color: 'black' }}>Lista de Tareas</h2>
+    <div style={{ padding: '32px' }}>
+      <h2
+        style={{
+          color: 'black',
+          textAlign: 'center',
+          fontSize: '24px',
+          fontWeight: '700',
+          marginBottom: '40px',
+        }}
+      >
+        Lista de Tareas
+      </h2>
 
-      <div className='tasks-container'>
+      <div
+        className='tasks-container'
+        style={{
+          display: 'grid',
+          gridTemplateColumns: userPermission.Write ? 'minmax(360px, 520px) 1fr' : '1fr',
+          gap: '48px',
+          alignItems: 'start',
+        }}
+      >
         {userPermission.Write && (
           <div
             xs={24}
             md={12}
             className={`form-task-container ${editTask ? 'add-height' : ''}`}
+            style={{
+              border: '1px solid #8a4bdb',
+              borderRadius: '14px',
+              padding: '32px 40px 28px',
+              background: '#fff',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+            }}
           >
-            <h2>{editTask ? 'Editar Tarea' : 'Agregar Tarea'}</h2>
+            <h2
+              style={{
+                textAlign: 'center',
+                color: '#d99200',
+                fontSize: '28px',
+                fontWeight: '700',
+                marginBottom: '32px',
+              }}
+            >
+              {editTask ? 'Editar Tarea' : 'Agregar Tarea'}
+            </h2>
 
-            <div className='field'>
-              <label style={{ color: 'black', fontWeight: 'bold' }}>
+            <div
+              className='field'
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'auto 1fr',
+                alignItems: 'center',
+                gap: '16px',
+              }}
+            >
+              <label
+                style={{ color: 'black', fontWeight: 'bold', fontSize: '18px' }}
+              >
                 Título:
               </label>
               <Input
                 size='large'
                 placeholder='Título'
                 className='input'
+                style={{ height: '48px' }}
                 value={title}
                 onChange={changeTitle}
               ></Input>
@@ -181,7 +240,7 @@ export default function Home() {
 
             <TextArea
               placeholder='Descripción de la tarea...'
-              style={{ marginTop: '1rem', height: '100px' }}
+              style={{ marginTop: '1.5rem', height: '120px' }}
               className='input text-area'
               value={content}
               onChange={changeContent}
@@ -194,6 +253,7 @@ export default function Home() {
                 marginTop: '1.5rem',
                 display: 'inline-block',
                 width: '100%',
+                height: '38px',
                 fontWeight: 'bold',
               }}
               onClick={editTask ? updateTask : createTask}
@@ -206,9 +266,10 @@ export default function Home() {
                 color='red'
                 variant='solid'
                 style={{
-                  marginTop: '0.5rem',
+                  marginTop: '0.75rem',
                   display: 'inline-block',
                   width: '100%',
+                  height: '38px',
                   fontWeight: 'bold',
                 }}
                 onClick={cancelEdit}
@@ -227,6 +288,7 @@ export default function Home() {
               ? 'read-delete'
               : ''
           }`}
+          style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
         >
           {/* {tasks.length > 0 &&
                 <ul>
@@ -238,25 +300,63 @@ export default function Home() {
 
           {paginatedTasks.length > 0 ? (
             paginatedTasks.map((task, index) => (
-              <div className='task-container' key={index}>
-                <div className='task-content'>
+              <div
+                className='task-container'
+                key={index}
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns:
+                    userPermission.Write && task.creator === user.email
+                      ? '1fr 100px'
+                      : userPermission.Delete
+                      ? '1fr 100px'
+                      : '1fr',
+                  border: '1px solid #8a4bdb',
+                  borderRadius: '14px',
+                  overflow: 'hidden',
+                  background: '#fff',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                }}
+              >
+                <div className='task-content' style={{ padding: '24px 20px' }}>
                   <div className='task-header'>
-                    <h3>{task.title}</h3>
+                    <h3 style={{ color: '#6f35d0', fontSize: '24px', margin: 0 }}>
+                      {task.title}
+                    </h3>
                   </div>
 
                   <div className='task-description'>
-                    <p>{task.content}</p>
+                    <p style={{ fontSize: '18px', margin: '20px 0 24px' }}>
+                      {task.content}
+                    </p>
                   </div>
 
-                  <div className='task-footer'>
-                    <h4>{task.creator}</h4>
-                    <h5>
+                  <div
+                    className='task-footer'
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      gap: '16px',
+                      flexWrap: 'wrap',
+                    }}
+                  >
+                    <h4 style={{ margin: 0, fontSize: '18px' }}>{task.creator}</h4>
+                    <h5 style={{ margin: 0, color: '#d99200', fontSize: '16px' }}>
                       {formatDate(convertTimestampToDate(task.created_at))}
                     </h5>
                   </div>
                 </div>
 
-                <div className='task-action'>
+                <div
+                  className='task-action'
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    width: '100%',
+                    height: '100%',
+                  }}
+                >
                   {userPermission.Write && task.creator === user.email && (
                     <button
                       onClick={() => startEdit(task)}

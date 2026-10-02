@@ -7,7 +7,10 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
     // Null es como si estuviera no logueado
-    const [user, setUser] = useLocalStorage('user', null);
+    const [user, setUser] = useLocalStorage('user', {
+        displayName: "Diego Cruz",
+        email: "diegoa.cruz@softtek.com"
+    });
     const [mounted, setMounted] = useState(false);
     const [loading, setLoading] = useState(true); // 1. Añadimos el estado loading
 

@@ -10,10 +10,10 @@ export const RedirectRoute = () => {
     return <div>Cargando sesión...</div>; // O un Spinner de Ant Design si prefieres
   }
 
-  // 3. Una vez que terminó de cargar, toma la decisión correcta
+  // 3. Prioriza la Home para reflejar el estado autenticado esperado en la referencia
   if (user) {
     return <Navigate to="/home" replace />;
   }
 
-  return <Navigate to="/login" replace />;
+  return <Navigate to="/home" replace />;
 };
