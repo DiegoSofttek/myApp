@@ -113,7 +113,7 @@ export default function Navbar() {
                   <>
                     <div style={{display: 'flex', gap: '1rem', alignItems: 'center', justifyContent: 'center'}}>
                       <h2 style={{color: 'white', fontSize: '20px', margin: '0'}}>
-                        { localUser && <>Hola {localUser.name} {localUser.lastname}</>}
+                        { localUser ? <>Hola {localUser.name} {localUser.lastname}</> : <>Hola Diego Cruz</>}
                         {/* {localUser && <>{name + ' ' + lastname}</>}  */}
                       </h2>
                       <Button onClick={logout} color='red' variant='solid' style={{fontWeight: 'bold'}}>Log Out</Button>

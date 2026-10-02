@@ -14,6 +14,8 @@
   /* margin: 0 auto; */
   /* padding: 2rem;   */
   text-align: center;
+  min-height: 100vh;
+  background-color: #e9e9e9;
 }
 
 .logo {
@@ -184,6 +186,7 @@ html body{
   display: flex;
   flex-direction: column;
   margin-top: 2rem;
+  align-items: flex-start;
 }
 @media(min-width: 768px){
   .tasks-container{
@@ -194,11 +197,11 @@ html body{
 
 .form-task-container{
   background-color: white;
-  padding: 1rem 2rem;
+  padding: 1.5rem 2rem;
   border-radius: 0.5rem;
   max-width: 100%;
   min-height: 250px;
-  max-height: 320px;
+  max-height: none;
   /* overflow-y: auto;  */
   margin-bottom: 2rem;
   border: 1px solid #722ed1;
@@ -207,6 +210,8 @@ html body{
 .form-task-container h2{
   margin: 0 0 2rem 0;
   color: var(--orange);
+  font-size: 2rem;
+  text-align: center;
 }
 .form-task-container .text-area{
   resize: none;
@@ -216,7 +221,8 @@ html body{
 }
 @media(min-width: 768px){
   .form-task-container{
-    width: 450px;
+    width: 38%;
+    min-width: 420px;
     margin-bottom: 0;
     position: -webkit-sticky;
     position: sticky;
@@ -231,15 +237,17 @@ html body{
   max-width: 100%;
 }
 .list-tasks-container h2{
-  margin: 0 0 1rem 0;
-  color: white;
+  margin: 0 0 2rem 0;
+  color: black;
+  font-size: 2.2rem;
+  text-align: center;
 }
 .list-tasks-container.read-delete{
   margin: 0;
 }
 @media(min-width: 768px){
   .list-tasks-container{
-    width: 700px;
+    width: 62%;
     margin: 0 auto;
     padding: 0;
   }
@@ -252,14 +260,15 @@ html body{
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  margin-bottom: 1rem;
+  align-items: stretch;
+  margin-bottom: 1.25rem;
   background-color: white;
   border-radius: 0.5rem;
   width: 100%;
   color: black;
   border: 1px solid #722ed1;
   box-shadow: 0px 4px 10px rgb(0, 0, 0, 0.5);
+  overflow: hidden;
 }
 .task-container:last-child{
   margin-bottom: 0;
@@ -283,7 +292,7 @@ html body{
   margin: 0;
 }
 .task-header h3{
-  margin: 1rem 0 0.5rem 0;
+  margin: 1.25rem 0 0.75rem 0;
   color: var(--purple);
   font-size: 1.4rem;
 }
@@ -291,13 +300,14 @@ html body{
   .task-header{
     justify-content: start;
     align-items: start;
-    margin: 0 1rem;
+    margin: 0 1.25rem;
   }
 }
 
 .task-description p{
-  margin: 0.5rem 1rem;
+  margin: 0.5rem 1.25rem;
   text-align: start;
+  font-size: 1rem;
 }
 
 .task-footer{
@@ -307,17 +317,20 @@ html body{
 }
 .task-footer h4{
   margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
 }
 .task-footer h5{
   margin: 0 0 1rem 0;
   color: var(--orange);
+  font-size: 0.95rem;
 }
 @media(min-width: 1120px){
   .task-footer{
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin: 1rem;
+    margin: 1rem 1.25rem 1.25rem;
   }
   .task-footer h5{
     margin: 0;
@@ -334,6 +347,7 @@ html body{
   width: 100%;
   padding: 1rem;
   box-sizing: border-box;
+  border: none;
 }
 .btn-edit{
   color: white;

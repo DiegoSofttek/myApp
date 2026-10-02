@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-import { Button, Col, Input, Pagination, Row } from 'antd';
+import { Button, Input, Pagination } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import { DeleteFilled, EditFilled } from '@ant-design/icons';
 import Swal from 'sweetalert2';
