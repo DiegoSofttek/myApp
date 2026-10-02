@@ -15,7 +15,7 @@ import {
 } from '../services/taskServices';
 
 export default function Home() {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const [userPermission, setUserPermission] = useState({});
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState('');
@@ -36,17 +36,32 @@ export default function Home() {
     }
   }, [user, loading, navigate]);
 
-  // Si todavía está cargando la sesión, muestra un indicador en lugar de romper el flujo
-  if (loading) {
-    return <div>Cargando sesión...</div>;
-  }
+  // useEffect(() => {
+  //   if (tasks.length === 0) {
+  //     getUserPermissionService(user, setUserPermission);
+  //     readTasksService(setTasks);
+  //   }
+  // }, [tasks]);
 
   useEffect(() => {
-    if (tasks.length === 0) {
+    if (!loading && user && tasks.length === 0) {
       getUserPermissionService(user, setUserPermission);
       readTasksService(setTasks);
     }
-  }, [tasks]);
+  }, [user, loading, tasks]);
+
+  // Si todavía está cargando la sesión, muestra un indicador en lugar de romper el flujo
+  // if (loading) {
+  //   return <div>Cargando sesión...</div>;
+  // }
+
+  if (loading) {
+    return (
+      <div style={{ textAlign: 'center', marginTop: '4rem' }}>
+        <h2>Cargando sesión...</h2>
+      </div>
+    );
+  }
 
   //Crear tarea
   const createTask = async () => {
