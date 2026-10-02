@@ -155,18 +155,63 @@ export default function Home() {
 
   return (
     <div>
-      <h2 style={{ color: 'black' }}>Lista de Tareas</h2>
+      <h2
+        style={{
+          color: 'black',
+          textAlign: 'center',
+          marginTop: '3rem',
+          marginBottom: '2.5rem',
+          fontSize: '24px',
+          fontWeight: '700',
+        }}
+      >
+        Lista de Tareas
+      </h2>
 
-      <div className='tasks-container'>
+      <div
+        className='tasks-container'
+        style={{
+          display: 'flex',
+          gap: '48px',
+          alignItems: 'flex-start',
+          padding: '0 32px',
+        }}
+      >
         {userPermission.Write && (
           <div
             xs={24}
             md={12}
             className={`form-task-container ${editTask ? 'add-height' : ''}`}
+            style={{
+              flex: '0 0 38%',
+              background: '#f5f5f5',
+              border: '1px solid #8a5cf6',
+              borderRadius: '12px',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.18)',
+              padding: '28px 38px',
+            }}
           >
-            <h2>{editTask ? 'Editar Tarea' : 'Agregar Tarea'}</h2>
+            <h2
+              style={{
+                textAlign: 'center',
+                color: '#d99000',
+                fontSize: '32px',
+                fontWeight: '700',
+                marginBottom: '2rem',
+              }}
+            >
+              {editTask ? 'Editar Tarea' : 'Agregar Tarea'}
+            </h2>
 
-            <div className='field'>
+            <div
+              className='field'
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '16px',
+                marginBottom: '1rem',
+              }}
+            >
               <label style={{ color: 'black', fontWeight: 'bold' }}>
                 Título:
               </label>
@@ -174,6 +219,7 @@ export default function Home() {
                 size='large'
                 placeholder='Título'
                 className='input'
+                style={{ flex: 1 }}
                 value={title}
                 onChange={changeTitle}
               ></Input>
@@ -181,7 +227,7 @@ export default function Home() {
 
             <TextArea
               placeholder='Descripción de la tarea...'
-              style={{ marginTop: '1rem', height: '100px' }}
+              style={{ marginTop: '1rem', height: '120px' }}
               className='input text-area'
               value={content}
               onChange={changeContent}
@@ -227,6 +273,7 @@ export default function Home() {
               ? 'read-delete'
               : ''
           }`}
+          style={{ flex: 1 }}
         >
           {/* {tasks.length > 0 &&
                 <ul>
@@ -238,25 +285,76 @@ export default function Home() {
 
           {paginatedTasks.length > 0 ? (
             paginatedTasks.map((task, index) => (
-              <div className='task-container' key={index}>
-                <div className='task-content'>
+              <div
+                className='task-container'
+                key={index}
+                style={{
+                  display: 'flex',
+                  background: '#f5f5f5',
+                  border: '1px solid #8a5cf6',
+                  borderRadius: '12px',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.18)',
+                  overflow: 'hidden',
+                  marginBottom: '20px',
+                }}
+              >
+                <div
+                  className='task-content'
+                  style={{ flex: 1, padding: '22px 20px' }}
+                >
                   <div className='task-header'>
-                    <h3>{task.title}</h3>
+                    <h3
+                      style={{
+                        color: '#6f35d8',
+                        fontSize: '28px',
+                        fontWeight: '700',
+                        marginBottom: '18px',
+                      }}
+                    >
+                      {task.title}
+                    </h3>
                   </div>
 
                   <div className='task-description'>
-                    <p>{task.content}</p>
+                    <p style={{ fontSize: '18px', marginBottom: '18px' }}>
+                      {task.content}
+                    </p>
                   </div>
 
-                  <div className='task-footer'>
-                    <h4>{task.creator}</h4>
-                    <h5>
+                  <div
+                    className='task-footer'
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      gap: '16px',
+                    }}
+                  >
+                    <h4 style={{ margin: 0, fontSize: '18px', fontWeight: '700' }}>
+                      {task.creator}
+                    </h4>
+                    <h5
+                      style={{
+                        margin: 0,
+                        fontSize: '16px',
+                        color: '#d99000',
+                        fontWeight: '700',
+                      }}
+                    >
                       {formatDate(convertTimestampToDate(task.created_at))}
                     </h5>
                   </div>
                 </div>
 
-                <div className='task-action'>
+                <div
+                  className='task-action'
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    width: '100px',
+                    flexShrink: 0,
+                  }}
+                >
                   {userPermission.Write && task.creator === user.email && (
                     <button
                       onClick={() => startEdit(task)}
@@ -265,6 +363,14 @@ export default function Home() {
                           ? 'border-radius'
                           : ''
                       }`}
+                      style={{
+                        flex: 1,
+                        border: 'none',
+                        background: '#08b000',
+                        color: 'white',
+                        fontSize: '24px',
+                        cursor: 'pointer',
+                      }}
                     >
                       <EditFilled></EditFilled>
                     </button>
@@ -276,6 +382,14 @@ export default function Home() {
                       className={`btn-delete ${
                         userPermission.Delete ? 'border-radius' : ''
                       }`}
+                      style={{
+                        flex: 1,
+                        border: 'none',
+                        background: '#ff1a1a',
+                        color: 'white',
+                        fontSize: '24px',
+                        cursor: 'pointer',
+                      }}
                     >
                       <DeleteFilled></DeleteFilled>
                     </button>
