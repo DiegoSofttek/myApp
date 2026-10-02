@@ -66,6 +66,7 @@ export default function Login() {
             <Col xs={24}>
                 <label>Email:</label>
                 <Input
+                    id="login-email"
                     size='large'
                     type="email"
                     placeholder="Email"
@@ -79,6 +80,7 @@ export default function Login() {
             <Col xs={24}>
                 <label>Password:</label>
                 <Input.Password
+                    id="login-password"
                     size='large'
                     type="password"
                     placeholder="Password"
@@ -92,6 +94,7 @@ export default function Login() {
 
           <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'end', marginTop: '2rem'}}>
             <Button 
+              id="login-submit-btn"
               onClick={login} 
               color='purple' 
               variant='solid' 
