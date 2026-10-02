@@ -9,8 +9,8 @@ export default function Login() {
     const {user} = useAuth();
     const navigate = useNavigate();
 
-    const [userName, setUserName] = useState('');
-    const [password, setPassword] = useState('');
+    const [userName, setUserName] = useState('diegoa.cruz@softtek.com');
+    const [password, setPassword] = useState('123456');
     const [error, setError] = useState('');
 
     const changeUserName = (inputValue) => {
@@ -95,10 +95,11 @@ export default function Login() {
           <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'end', marginTop: '2rem'}}>
             <Button 
               id="login-submit-btn"
+              size='large'
               onClick={login} 
               color='purple' 
               variant='solid' 
-              style={{fontWeight: 'bold'}}
+              style={{fontWeight: 'bold', minWidth: '84px'}}
               disabled={!userName || !password}
             >Log In</Button>
           </div>
