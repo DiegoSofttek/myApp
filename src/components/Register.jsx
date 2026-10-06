@@ -50,14 +50,14 @@ export default function Register() {
     }
 
   return (
-    <div className='auth-container'>
+    <div className='auth-container' style={{ width: 'min(1150px, 92vw)', margin: '64px auto 0' }}>
 
-      <Row>
-        <Col xs={24} md={12} className='img-auth-container'>
-          <img src='login.jpg' className='img-auth' alt='image auth'></img>
+      <Row style={{ width: '100%', minHeight: '560px' }}>
+        <Col xs={24} md={12} className='img-auth-container' style={{ minHeight: '560px' }}>
+          <img src='login.jpg' className='img-auth' alt='image auth' style={{ width: '100%', height: '100%', objectFit: 'cover' }}></img>
         </Col>
         
-        <Col xs={24} md={12} className='register-fields'>
+        <Col xs={24} md={12} className='register-fields' style={{ minHeight: '560px', margin: 0, padding: '56px 56px 40px' }}>
           <h2>Regístrate</h2>
 
           {error && <p className='error'>{error}</p>}
@@ -121,8 +121,8 @@ export default function Register() {
               onClick={register} 
               color='purple' 
               variant='solid' 
-              style={{fontWeight: 'bold'}}
-              disabled={!name || !lastname || !userName || !password}
+              size='large'
+              style={{fontWeight: 'bold', minWidth: '114px'}}
             >Regístrate</Button>
           </div>
 
