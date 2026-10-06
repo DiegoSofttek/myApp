@@ -1,0 +1,8 @@
+[
+  {
+    "relativePath": "src/components/Login.jsx",
+    "shortDescription": "Pantalla de acceso centrada con estados default y error.",
+    "fullDescription": "Vista de acceso con tarjeta centrada, emblema superior, título de producto, subtítulo, campos interactivos de email y password, alerta visual para el estado error y botón principal de ingreso. Expone las props state, copy, initialValues y onSubmit para conservar estados visibles y permitir integración posterior con lógica externa o manejo controlado.",
+    "isView": true
+  }
+]
