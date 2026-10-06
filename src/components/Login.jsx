@@ -3,7 +3,7 @@ import { LoginOutlined } from '@ant-design/icons';
 import React, { useEffect, useMemo, useState } from 'react';
 import { signInUser } from '../config/authCall';
 import { useAuth } from '../hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const defaultCopy = {
   brand: 'Frida Product Planner',
@@ -19,10 +19,13 @@ const defaultCopy = {
 export default function Login({ state = 'default', copy = defaultCopy, initialValues = { email: '', password: '' }, onSubmit }) {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const routeState = searchParams.get('state');
+  const resolvedState = routeState === 'error' ? 'error' : state;
   const [email, setEmail] = useState(initialValues.email ?? '');
   const [password, setPassword] = useState(initialValues.password ?? '');
-  const [localState, setLocalState] = useState(state);
-  const [errorMessage, setErrorMessage] = useState(state === 'error' ? copy.errorMessage : '');
+  const [localState, setLocalState] = useState(resolvedState);
+  const [errorMessage, setErrorMessage] = useState(resolvedState === 'error' ? copy.errorMessage : '');
 
   useEffect(() => {
     if (user) {
@@ -31,9 +34,9 @@ export default function Login({ state = 'default', copy = defaultCopy, initialVa
   }, [user, navigate]);
 
   useEffect(() => {
-    setLocalState(state);
-    setErrorMessage(state === 'error' ? copy.errorMessage : '');
-  }, [state, copy.errorMessage]);
+    setLocalState(resolvedState);
+    setErrorMessage(resolvedState === 'error' ? copy.errorMessage : '');
+  }, [resolvedState, copy.errorMessage]);
 
   const theme = useMemo(
     () => ({
@@ -69,20 +72,25 @@ export default function Login({ state = 'default', copy = defaultCopy, initialVa
     []
   );
 
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
+  const resetErrorState = () => {
     if (localState === 'error') {
       setLocalState('default');
       setErrorMessage('');
+      if (routeState === 'error') {
+        searchParams.delete('state');
+        setSearchParams(searchParams, { replace: true });
+      }
     }
+  };
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+    resetErrorState();
   };
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
-    if (localState === 'error') {
-      setLocalState('default');
-      setErrorMessage('');
-    }
+    resetErrorState();
   };
 
   const handleSubmit = async () => {
@@ -96,6 +104,7 @@ export default function Login({ state = 'default', copy = defaultCopy, initialVa
     } catch {
       setLocalState('error');
       setErrorMessage(copy.errorMessage);
+      setSearchParams({ state: 'error' }, { replace: true });
     }
   };
 

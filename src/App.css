@@ -116,14 +116,27 @@ html body {
 }
 
 .login-error {
-  margin-bottom: 24px;
-  padding: 12px 14px;
+  margin-bottom: 22px;
+  padding: 13px 16px;
   border: 1px solid var(--error-border);
   border-radius: var(--radius-base);
   background: var(--error-bg);
   color: var(--error-text);
-  text-align: left;
+  text-align: center;
   font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.login-view[data-state='error'] .login-header {
+  margin-bottom: 32px;
+}
+
+.login-view[data-state='error'] .login-form {
+  gap: 24px;
+}
+
+.login-view[data-state='error'] .login-submit.ant-btn {
+  margin-top: 8px;
 }
 
 @media (max-width: 640px) {
