@@ -3,7 +3,7 @@ import { LoginOutlined } from '@ant-design/icons';
 import React, { useEffect, useMemo, useState } from 'react';
 import { signInUser } from '../config/authCall';
 import { useAuth } from '../hooks/useAuth';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
 const defaultCopy = {
   brand: 'Frida Product Planner',
@@ -20,7 +20,8 @@ export default function Login({ state = 'default', copy = defaultCopy, initialVa
   const { user } = useAuth();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const routeState = searchParams.get('state');
+  const { state: routeParamState } = useParams();
+  const routeState = searchParams.get('state') ?? routeParamState;
   const resolvedState = routeState === 'error' ? 'error' : state;
   const [email, setEmail] = useState(initialValues.email ?? '');
   const [password, setPassword] = useState(initialValues.password ?? '');
@@ -76,9 +77,13 @@ export default function Login({ state = 'default', copy = defaultCopy, initialVa
     if (localState === 'error') {
       setLocalState('default');
       setErrorMessage('');
-      if (routeState === 'error') {
-        searchParams.delete('state');
-        setSearchParams(searchParams, { replace: true });
+      if (searchParams.get('state') === 'error') {
+        const nextParams = new URLSearchParams(searchParams);
+        nextParams.delete('state');
+        setSearchParams(nextParams, { replace: true });
+      }
+      if (routeParamState === 'error') {
+        navigate('/login', { replace: true });
       }
     }
   };

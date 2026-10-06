@@ -28,6 +28,14 @@ function AppLayout() {
           }
         />
         <Route
+          path='/login/:state'
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
+        />
+        <Route
           path='/register'
           element={
             <PublicRoute>
