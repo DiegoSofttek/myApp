@@ -1,109 +1,165 @@
-import { Button, Col, Input, Row } from 'antd'
-import React, { useEffect, useState } from 'react'
+import { Button, ConfigProvider, Input } from 'antd';
+import { LoginOutlined } from '@ant-design/icons';
+import React, { useEffect, useMemo, useState } from 'react';
 import { signInUser } from '../config/authCall';
 import { useAuth } from '../hooks/useAuth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
-export default function Login() {
+const defaultCopy = {
+  brand: 'Frida Product Planner',
+  subtitle: 'Sign in to continue',
+  emailLabel: 'Email',
+  emailPlaceholder: 'Enter your email',
+  passwordLabel: 'Password',
+  passwordPlaceholder: 'Enter your password',
+  buttonText: 'Sign In',
+  errorMessage: 'Invalid email or password',
+};
 
-    const {user} = useAuth();
-    const navigate = useNavigate();
+export default function Login({ state = 'default', copy = defaultCopy, initialValues = { email: '', password: '' }, onSubmit }) {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { state: routeParamState } = useParams();
+  const routeState = searchParams.get('state') ?? routeParamState;
+  const resolvedState = routeState === 'error' ? 'error' : state;
+  const [email, setEmail] = useState(initialValues.email ?? '');
+  const [password, setPassword] = useState(initialValues.password ?? '');
+  const [localState, setLocalState] = useState(resolvedState);
+  const [errorMessage, setErrorMessage] = useState(resolvedState === 'error' ? copy.errorMessage : '');
 
-    const [userName, setUserName] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-
-    const changeUserName = (inputValue) => {
-      setUserName(inputValue.target.value);
+  useEffect(() => {
+    if (user) {
+      navigate('/home');
     }
+  }, [user, navigate]);
 
-    const changePassword = (inputValue) => {
-      setPassword(inputValue.target.value);
-    }
+  useEffect(() => {
+    setLocalState(resolvedState);
+    setErrorMessage(resolvedState === 'error' ? copy.errorMessage : '');
+  }, [resolvedState, copy.errorMessage]);
 
-    useEffect(() => {
-      if(user){
-        navigate('/home');
+  const theme = useMemo(
+    () => ({
+      token: {
+        colorPrimary: 'var(--primary)',
+        colorText: 'var(--text-main)',
+        colorTextPlaceholder: 'var(--text-muted)',
+        colorBorder: 'var(--border-color)',
+        colorBgContainer: 'var(--bg-input)',
+        colorTextBase: 'var(--text-main)',
+        colorPrimaryHover: 'var(--primary)',
+        colorPrimaryActive: 'var(--primary)',
+        borderRadius: 8,
+        fontFamily: 'var(--font-sans)',
+        controlHeightLG: 48,
+      },
+      components: {
+        Input: {
+          activeBorderColor: 'var(--primary)',
+          hoverBorderColor: 'var(--border-color)',
+          activeShadow: '0 0 0 3px rgba(45, 240, 255, 0.12)',
+          colorBgContainer: 'var(--bg-input)',
+          colorBorder: 'var(--border-color)',
+          colorText: 'var(--text-main)',
+          colorTextPlaceholder: 'var(--text-muted)',
+        },
+        Button: {
+          defaultShadow: 'none',
+          primaryShadow: '0 18px 40px rgba(45, 240, 255, 0.22)',
+        },
+      },
+    }),
+    []
+  );
+
+  const resetErrorState = () => {
+    if (localState === 'error') {
+      setLocalState('default');
+      setErrorMessage('');
+      if (searchParams.get('state') === 'error') {
+        const nextParams = new URLSearchParams(searchParams);
+        nextParams.delete('state');
+        setSearchParams(nextParams, { replace: true });
       }
-    }, [user]);
-
-    //Nos puede funcionar cuando la función signInUser es asincrona
-    // const login = async () => {
-    //   // console.log(userName);
-    //   // console.log(password);
-    //   try {
-    //       await signInUser(userName, password);
-    //       navigate('/home');
-    //   } catch (error) {
-    //       console.error('Error during login:', error);
-    //   }
-    // }
-
-    const login = async() => {
-      try{
-        await signInUser(userName, password);
-      }catch(error){
-        setError('Error al iniciar sesión');
+      if (routeParamState === 'error') {
+        navigate('/login', { replace: true });
       }
     }
+  };
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+    resetErrorState();
+  };
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+    resetErrorState();
+  };
+
+  const handleSubmit = async () => {
+    if (onSubmit) {
+      onSubmit({ email, password, state: localState });
+      return;
+    }
+
+    try {
+      await signInUser(email, password);
+    } catch {
+      setLocalState('error');
+      setErrorMessage(copy.errorMessage);
+      setSearchParams({ state: 'error' }, { replace: true });
+    }
+  };
 
   return (
-    <div className='auth-container'>
-      {/* {JSON.stringify(user)} */}
-      {/* {JSON.stringify(user.providerData[0].uid)} */}
-      
-      <Row>
-        <Col xs={24} md={12} className='img-auth-container'>
-          <img src='login.jpg' className='img-auth' alt='image auth'></img>
-        </Col>
-
-        <Col xs={24} md={12} className='auth-fields'>
-          <h2>Inicía Sesión</h2>
-
-          {error && <p className='error'>{error}</p>}
-          
-          <Row gutter={[16, 16]}>
-            <Col xs={24}>
-                <label>Email:</label>
-                <Input
-                    id="login-email"
-                    size='large'
-                    type="email"
-                    placeholder="Email"
-                    value={userName}
-                    onChange={changeUserName}
-                    className='input'
-                >
-                </Input>
-            </Col>
-
-            <Col xs={24}>
-                <label>Password:</label>
-                <Input.Password
-                    id="login-password"
-                    size='large'
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={changePassword}
-                    className='input'
-                >
-                </Input.Password>
-            </Col>
-          </Row>
-
-          <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'end', marginTop: '2rem'}}>
-            <Button 
-              id="login-submit-btn"
-              onClick={login} 
-              color='purple' 
-              variant='solid' 
-              style={{fontWeight: 'bold'}}
-              disabled={!userName || !password}
-            >Log In</Button>
+    <ConfigProvider theme={theme}>
+      <section className='login-view' data-state={localState}>
+        <div className='login-card'>
+          <div className='login-logo' aria-hidden='true'>
+            <LoginOutlined />
           </div>
-        </Col>
-      </Row>
-    </div>
-  )
+
+          <header className='login-header'>
+            <h1>{copy.brand}</h1>
+            <p>{copy.subtitle}</p>
+          </header>
+
+          {errorMessage ? <div className='login-error'>{errorMessage}</div> : null}
+
+          <div className='login-form'>
+            <label className='login-field'>
+              <span>{copy.emailLabel}</span>
+              <Input
+                id='login-email'
+                size='large'
+                type='email'
+                placeholder={copy.emailPlaceholder}
+                value={email}
+                onChange={handleEmailChange}
+                autoComplete='email'
+              />
+            </label>
+
+            <label className='login-field'>
+              <span>{copy.passwordLabel}</span>
+              <Input.Password
+                id='login-password'
+                size='large'
+                placeholder={copy.passwordPlaceholder}
+                value={password}
+                onChange={handlePasswordChange}
+                autoComplete='current-password'
+              />
+            </label>
+
+            <Button id='login-submit-btn' type='primary' size='large' className='login-submit' onClick={handleSubmit}>
+              {copy.buttonText}
+            </Button>
+          </div>
+        </div>
+      </section>
+    </ConfigProvider>
+  );
 }
