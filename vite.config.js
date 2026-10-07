@@ -5,5 +5,11 @@ export default defineConfig({
   plugins: [react()],
   server: {
     allowedHosts: true 
+  },
+  test: {
+    environment: 'happy-dom',
+    clearMocks: true,
+    restoreMocks: true,
+    setupFiles: './src/test/setupTests.js'
   }
 })

@@ -64,7 +64,7 @@ export default function Login() {
           
           <Row gutter={[16, 16]}>
             <Col xs={24}>
-                <label>Email:</label>
+                <label htmlFor="login-email">Email:</label>
                 <Input
                     id="login-email"
                     size='large'
@@ -78,7 +78,7 @@ export default function Login() {
             </Col>
 
             <Col xs={24}>
-                <label>Password:</label>
+                <label htmlFor="login-password">Password:</label>
                 <Input.Password
                     id="login-password"
                     size='large'
