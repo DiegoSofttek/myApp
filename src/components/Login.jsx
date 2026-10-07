@@ -72,6 +72,7 @@ export default function Login() {
                     placeholder="Email"
                     value={userName}
                     onChange={changeUserName}
+                    onInput={changeUserName}
                     className='input'
                 >
                 </Input>
@@ -86,6 +87,7 @@ export default function Login() {
                     placeholder="Password"
                     value={password}
                     onChange={changePassword}
+                    onInput={changePassword}
                     className='input'
                 >
                 </Input.Password>
