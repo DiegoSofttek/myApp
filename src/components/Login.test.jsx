@@ -1,7 +1,7 @@
 import React from 'react';
-import { act } from 'react';
-import { createRoot } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { createRoot } from 'react-dom/client';
+import { act } from 'react';
 import Login from './Login';
 import * as authCall from '../config/authCall';
 
@@ -23,12 +23,12 @@ vi.mock('react-router-dom', async () => {
   };
 });
 
-describe('TASK-1 / SUB-1 / UT-SUB-1-US-1-AC-1 Login invalid credentials', () => {
+describe('TASK-1 / SUB-1 Login error', () => {
   let container;
   let root;
 
   const getEmailInput = () => container.querySelector('#login-email');
-  const getPasswordInput = () => container.querySelector('#login-password input') ?? container.querySelector('#login-password');
+  const getPasswordInput = () => container.querySelector('#login-password');
   const getSubmitButton = () => container.querySelector('#login-submit-btn');
 
   const dispatchInput = async (element, value) => {
@@ -45,7 +45,7 @@ describe('TASK-1 / SUB-1 / UT-SUB-1-US-1-AC-1 Login invalid credentials', () => 
     document.body.appendChild(container);
     root = createRoot(container);
     mockNavigate.mockReset();
-    vi.mocked(authCall.signInUser).mockReset();
+    authCall.signInUser.mockReset();
 
     await act(async () => {
       root.render(<Login />);
@@ -59,7 +59,7 @@ describe('TASK-1 / SUB-1 / UT-SUB-1-US-1-AC-1 Login invalid credentials', () => 
     container.remove();
   });
 
-  it('SUB-1-TC-01 does not show authentication error initially and keeps submit disabled until both fields are completed', async () => {
+  it('UT-SUB-1-CORE SUB-1-TC-01 renders without error initially and keeps submit disabled until both fields are filled', async () => {
     expect(container.textContent).not.toContain('Error al iniciar sesión');
     expect(getSubmitButton().disabled).toBe(true);
 
@@ -70,8 +70,8 @@ describe('TASK-1 / SUB-1 / UT-SUB-1-US-1-AC-1 Login invalid credentials', () => 
     expect(getSubmitButton().disabled).toBe(false);
   });
 
-  it('SUB-1-TC-02 calls signInUser exactly once with the entered invalid credentials', async () => {
-    vi.mocked(authCall.signInUser).mockRejectedValueOnce(new Error('invalid credentials'));
+  it('UT-SUB-1-CORE SUB-1-TC-02 calls signInUser once with the entered invalid credentials', async () => {
+    authCall.signInUser.mockRejectedValueOnce(new Error('invalid credentials'));
 
     await dispatchInput(getEmailInput(), 'invalid@example.com');
     await dispatchInput(getPasswordInput(), 'bad-password');
@@ -84,8 +84,8 @@ describe('TASK-1 / SUB-1 / UT-SUB-1-US-1-AC-1 Login invalid credentials', () => 
     expect(authCall.signInUser).toHaveBeenCalledWith('invalid@example.com', 'bad-password');
   });
 
-  it('SUB-1-TC-03 renders the visible authentication error message after a failed login', async () => {
-    vi.mocked(authCall.signInUser).mockRejectedValueOnce(new Error('invalid credentials'));
+  it('UT-SUB-1-CORE SUB-1-TC-03 shows the login error message when signInUser rejects for invalid credentials', async () => {
+    authCall.signInUser.mockRejectedValueOnce(new Error('invalid credentials'));
 
     await dispatchInput(getEmailInput(), 'invalid@example.com');
     await dispatchInput(getPasswordInput(), 'bad-password');
@@ -97,8 +97,8 @@ describe('TASK-1 / SUB-1 / UT-SUB-1-US-1-AC-1 Login invalid credentials', () => 
     expect(container.textContent).toContain('Error al iniciar sesión');
   });
 
-  it('SUB-1-TC-04 does not navigate to /home when authentication fails', async () => {
-    vi.mocked(authCall.signInUser).mockRejectedValueOnce(new Error('invalid credentials'));
+  it('UT-SUB-1-CORE SUB-1-TC-04 does not navigate to /home after a failed login attempt', async () => {
+    authCall.signInUser.mockRejectedValueOnce(new Error('invalid credentials'));
 
     await dispatchInput(getEmailInput(), 'invalid@example.com');
     await dispatchInput(getPasswordInput(), 'bad-password');
@@ -107,7 +107,7 @@ describe('TASK-1 / SUB-1 / UT-SUB-1-US-1-AC-1 Login invalid credentials', () => 
       getSubmitButton().click();
     });
 
-    expect(mockNavigate).not.toHaveBeenCalled();
     expect(mockNavigate).not.toHaveBeenCalledWith('/home');
+    expect(mockNavigate).not.toHaveBeenCalled();
   });
 });
