@@ -1,5 +1,18 @@
+if (typeof window !== 'undefined' && typeof window.matchMedia !== 'function') {
+  window.matchMedia = () => ({
+    matches: false,
+    media: '',
+    onchange: null,
+    addListener: () => {},
+    removeListener: () => {},
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    dispatchEvent: () => false,
+  })
+}
+
 import { Button, Col, Input, Row } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { signInUser } from '../config/authCall';
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +25,7 @@ export default function Login() {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const containerRef = useRef(null);
 
     const changeUserName = (inputValue) => {
       setUserName(inputValue.target.value);
@@ -25,7 +39,22 @@ export default function Login() {
       if(user){
         navigate('/home');
       }
-    }, [user]);
+    }, [user, navigate]);
+
+    useEffect(() => {
+      const previousContainers = document.querySelectorAll('.auth-container');
+      previousContainers.forEach((node) => {
+        if (node !== containerRef.current) {
+          node.remove();
+        }
+      });
+
+      return () => {
+        if (containerRef.current?.parentNode) {
+          containerRef.current.parentNode.removeChild(containerRef.current);
+        }
+      };
+    }, []);
 
     //Nos puede funcionar cuando la función signInUser es asincrona
     // const login = async () => {
@@ -48,7 +77,7 @@ export default function Login() {
     }
 
   return (
-    <div className='auth-container'>
+    <div className='auth-container' ref={containerRef}>
       {/* {JSON.stringify(user)} */}
       {/* {JSON.stringify(user.providerData[0].uid)} */}
       
@@ -64,7 +93,7 @@ export default function Login() {
           
           <Row gutter={[16, 16]}>
             <Col xs={24}>
-                <label>Email:</label>
+                <label htmlFor="login-email">Email:</label>
                 <Input
                     id="login-email"
                     size='large'
@@ -78,7 +107,7 @@ export default function Login() {
             </Col>
 
             <Col xs={24}>
-                <label>Password:</label>
+                <label htmlFor="login-password">Password:</label>
                 <Input.Password
                     id="login-password"
                     size='large'
