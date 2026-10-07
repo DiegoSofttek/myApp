@@ -1,8 +1,23 @@
-import { Button, Col, Input, Row } from 'antd'
+import { Button, Col, Row } from 'antd'
+import Input from 'antd/es/input'
+import '@ant-design/v5-patch-for-react-19'
 import React, { useEffect, useState } from 'react'
 import { signInUser } from '../config/authCall';
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+
+if (typeof window !== 'undefined' && typeof window.matchMedia !== 'function') {
+  window.matchMedia = (query) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: () => {},
+    removeListener: () => {},
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    dispatchEvent: () => false,
+  });
+}
 
 export default function Login() {
 
@@ -15,32 +30,23 @@ export default function Login() {
 
     const changeUserName = (inputValue) => {
       setUserName(inputValue.target.value);
+      if (error) setError('');
     }
 
     const changePassword = (inputValue) => {
       setPassword(inputValue.target.value);
+      if (error) setError('');
     }
 
     useEffect(() => {
       if(user){
         navigate('/home');
       }
-    }, [user]);
-
-    //Nos puede funcionar cuando la función signInUser es asincrona
-    // const login = async () => {
-    //   // console.log(userName);
-    //   // console.log(password);
-    //   try {
-    //       await signInUser(userName, password);
-    //       navigate('/home');
-    //   } catch (error) {
-    //       console.error('Error during login:', error);
-    //   }
-    // }
+    }, [user, navigate]);
 
     const login = async() => {
       try{
+        setError('');
         await signInUser(userName, password);
       }catch(error){
         setError('Error al iniciar sesión');
@@ -49,9 +55,6 @@ export default function Login() {
 
   return (
     <div className='auth-container'>
-      {/* {JSON.stringify(user)} */}
-      {/* {JSON.stringify(user.providerData[0].uid)} */}
-      
       <Row>
         <Col xs={24} md={12} className='img-auth-container'>
           <img src='login.jpg' className='img-auth' alt='image auth'></img>
