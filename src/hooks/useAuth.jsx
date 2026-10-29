@@ -9,6 +9,8 @@ export const AuthProvider = ({children}) => {
     //Null es como si estuviera no logueado
     const [user, setUser] = useLocalStorage('user', null);
     const [mounted, setMounted] = useState(false);
+    // true hasta que Firebase reporte el primer estado de autenticación
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         //Válidar si el usuario esta logueado
@@ -24,14 +26,16 @@ export const AuthProvider = ({children}) => {
     const listenUser = (user) => {
         //console.log(user);
         setUser(user);
+        setLoading(false);
     }
 
     const value = useMemo(
         () => ({
             user,
+            loading,
             logout
         }),
-        [user]
+        [user, loading]
     )
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
