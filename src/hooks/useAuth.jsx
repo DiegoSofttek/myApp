@@ -3,7 +3,7 @@ import { logoutFirebase, userListener } from "../config/authCall";
 import useLocalStorage from "./useLocalStorage";
 
 //Inicializamos el contexto vacío
-export const AuthContext = createContext();
+const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
     //Null es como si estuviera no logueado
