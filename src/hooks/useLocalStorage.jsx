@@ -15,7 +15,7 @@ export const useLocalStorage = (keyName, defaultValue) => {
         window.localStorage.setItem(keyName, JSON.stringify(defaultValue));
         return defaultValue;
       }
-    } catch (err) {
+    } catch {
       //si hay algún error se pone el default value
       return defaultValue;
     }

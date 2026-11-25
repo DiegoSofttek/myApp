@@ -1,5 +1,5 @@
 import { Button, Col, Input, Row } from 'antd'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from "react";
 import { signInUser } from '../config/authCall';
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
