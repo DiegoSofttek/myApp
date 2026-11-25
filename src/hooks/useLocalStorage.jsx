@@ -2,7 +2,7 @@ import { useState } from 'react';
 /*
 Guarda en local storage lo que se necesite
 */
-export const useLocalStorage = (keyName, defaultValue) => {
+const useLocalStorage = (keyName, defaultValue) => {
   const [storedValue, setStoredValue] = useState(() => {
     //intenta guardar en localstorage el item que se le pida
     try {
