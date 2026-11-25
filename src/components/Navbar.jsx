@@ -1,5 +1,5 @@
 import { Button, Col, Row } from 'antd'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from "react";
 import { useAuth } from '../hooks/useAuth'
 import { useNavigate } from 'react-router-dom';
 import { readDataUserFirestore } from '../config/firestoreCalls';
@@ -20,16 +20,6 @@ export default function Navbar() {
   //     return email;
   //   }
   // }
-
-  useEffect(() => {
-
-    if(user){
-      readUser();
-    }else{
-      setLocalUser(null); //Limpiar el estado del usuario cuando se desloguea
-    }
-
-  }, [user]);
 
   const readUser = async () => {
 
@@ -55,6 +45,16 @@ export default function Navbar() {
       setLocalUser(userData);
     }
   }
+
+  useEffect(() => {
+
+    if(user){
+      readUser();
+    }else{
+      setLocalUser(null); //Limpiar el estado del usuario cuando se desloguea
+    }
+
+  }, [user]);
 
   // if (!localUser) {
   //   return null; // O muestra un mensaje de carga o un componente alternativo
