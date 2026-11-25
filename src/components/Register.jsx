@@ -1,6 +1,6 @@
 import { Button, Col, Input, Row } from 'antd'
-import React, { useEffect, useState } from 'react'
-import { createUser, createUserDocument } from '../config/authCall';
+import { useEffect, useState } from "react";
+import { createUser } from "../config/authCall";
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,7 +17,7 @@ export default function Register() {
 
     useEffect(() => {
       if(user) navigate('/home');
-    }, [user]);
+    }, [user, navigate]);
 
     const changeName = (inputValue) => {
       setName(inputValue.target.value);
@@ -43,8 +43,7 @@ export default function Register() {
         await createUser('users', userName, password, name, lastname)
         //console.log(userCredential);
 
-      }catch(error){
-        //console.log(error);
+      }catch{
         setError('Error al registrate');
       }
     }
@@ -54,7 +53,7 @@ export default function Register() {
 
       <Row>
         <Col xs={24} md={12} className='img-auth-container'>
-          <img src='login.jpg' className='img-auth' alt='image auth'></img>
+          <img src='login.jpg' className='img-auth' alt='Ilustración de autenticación'></img>
         </Col>
         
         <Col xs={24} md={12} className='register-fields'>
@@ -90,8 +89,10 @@ export default function Register() {
             </Col>
 
             <Col xs={24}>
-                <label>Email:</label>
+                <label htmlFor='email' id='email-label'>Email:</label>
                 <Input
+                    id='email'
+                    aria-labelledby='email-label'
                     size='large'
                     type="email"
                     placeholder="Email"
@@ -103,8 +104,10 @@ export default function Register() {
             </Col>
 
             <Col xs={24}>
-                <label>Password:</label>
+                <label htmlFor='password' id='password-label'>Password:</label>
                 <Input.Password
+                    id='password'
+                    aria-labelledby='password-label'
                     size='large'
                     type="password"
                     placeholder="Password"
